@@ -1,27 +1,25 @@
 const lcjs = require('@lightningchart/lcjs')
 const {
-		lightningChart, 
-    Themes, 
-    LUT, 
-    regularColorSteps, 
-    BarChartTypes, 
-    SolidFill, 
-    ColorHEX, 
-    AxisTickStrategies,
-    htmlTextRenderer, 
-    SolidLine, 
-    emptyLine, 
-		emptyFill,
-		FontSettings,
-    FormattingFunctions,
-		LegendPosition,
+	lightningChart, 
+	Themes, 
+	LUT, 
+	regularColorSteps, 
+	BarChartTypes, 
+	SolidFill, 
+	ColorHEX, 
+	AxisTickStrategies,
+	htmlTextRenderer, 
+	emptyLine, 
+	FontSettings,
+	FormattingFunctions,
+	LegendPosition,
 } = lcjs
 
 const exampleContainer = document.getElementById('chart') || document.body
 if (exampleContainer === document.body) {
-    exampleContainer.style.width = '100vw'
-    exampleContainer.style.height = '100vh'
-    exampleContainer.style.margin = '0px'
+	exampleContainer.style.width = '100vw'
+	exampleContainer.style.height = '100vh'
+	exampleContainer.style.margin = '0px'
 }
 exampleContainer.style.display = 'flex'
 exampleContainer.style.flexDirection = 'column'
@@ -71,28 +69,28 @@ const parallelChart = lc
   })
   .setTitle("Car Characteristics - Double Click on Axis to Filter")
   .setPadding({ left: 10, right: 10, top: 0, bottom: 15 })
-	containerChart1.style.width = '100%'
-	containerChart1.style.height = '100%'
+containerChart1.style.width = '100%'
+containerChart1.style.height = '100%'
 
-  const theme = parallelChart.getTheme()
-  const Axes = { 
-    Price: 0, 
-    Horsepower: 1,
-    Weight: 2, 
-    FuelEfficiency: 3 
-  }
-  parallelChart.setAxes(Axes)
-  parallelChart.getAxis(Axes.FuelEfficiency).setInterval({ start: 1.50, end: 6.25 })
-  parallelChart.setLUT({
-      axis: parallelChart.getAxis(Axes.FuelEfficiency),
-      lut: new LUT({
-        interpolate: true,
-        steps: regularColorSteps(1.50, 6.25, theme.examples.badGoodColorPalette),
-      }),
-    })
-  // Initial range selector
-  parallelChart.getAxis(Axes.Price).addRangeSelector().setInterval(pStart, pEnd)
-	parallelChart.getAxis(Axes.Horsepower).addRangeSelector().setInterval(hpStart, hpEnd)
+const theme = parallelChart.getTheme()
+const Axes = { 
+	Price: 0, 
+	Horsepower: 1,
+	Weight: 2, 
+	FuelEfficiency: 3 
+}
+parallelChart.setAxes(Axes)
+parallelChart.getAxis(Axes.FuelEfficiency).setInterval({ start: 1.50, end: 6.25 })
+parallelChart.setLUT({
+	axis: parallelChart.getAxis(Axes.FuelEfficiency),
+	lut: new LUT({
+		interpolate: true,
+		steps: regularColorSteps(1.50, 6.25, theme.examples.badGoodColorPalette),
+	}),
+})
+// Initial range selector
+parallelChart.getAxis(Axes.Price).addRangeSelector().setInterval(pStart, pEnd)
+parallelChart.getAxis(Axes.Horsepower).addRangeSelector().setInterval(hpStart, hpEnd)
 
 // Horizontal Bar Chart
 const containerChart2 = document.createElement('div')
@@ -112,9 +110,9 @@ const modelsChart = lc
 	.setCornerRadius(undefined) 
 	.setBarsMargin(0.1)
 	.setPadding({ left: 20, right: 20, top: 0, bottom: 10 })
-	containerChart2.style.width = '25%'
-	containerChart2.style.height = '100%'
-	modelsChart.valueAxis.setTickStrategy(AxisTickStrategies.Numeric, (ticks) => ticks.setMajorFormattingFunction(FormattingFunctions.NumericUnits))
+containerChart2.style.width = '25%'
+containerChart2.style.height = '100%'
+modelsChart.valueAxis.setTickStrategy(AxisTickStrategies.Numeric, (ticks) => ticks.setMajorFormattingFunction(FormattingFunctions.NumericUnits))
 
 // Vertical Bar Chart
 const containerChart3 = document.createElement('div')
@@ -136,11 +134,11 @@ const fuelPriceChart = lc
 	.setCornerRadius(3) 
 	.setBarsMargin(0.15)
 	.setPadding({ left: 10, right: 10, top: 0, bottom: 5 })
-	containerChart3.style.width = '20%'
-	containerChart3.style.height = '100%'
-	fuelPriceChart.valueAxis.setTickStrategy(AxisTickStrategies.Numeric, ticks => ticks
-		.setMajorFormattingFunction((value) => `${value.toFixed(0)}`)
-	)
+containerChart3.style.width = '20%'
+containerChart3.style.height = '100%'
+fuelPriceChart.valueAxis.setTickStrategy(AxisTickStrategies.Numeric, ticks => ticks
+	.setMajorFormattingFunction((value) => `${value.toFixed(0)}`)
+)
 
 // Scatter Chart
 const containerChart4 = document.createElement('div')
@@ -155,34 +153,34 @@ const weightFEChart = lc
 	.setTitleFont(new FontSettings({ size: 15 }))
 	.setCursorMode('show-nearest')
 	.setPadding({ left: 10, right: 10, top: 5, bottom: 5 })
-	containerChart4.style.width = '27.5%'
-	containerChart4.style.height = '100%'
+containerChart4.style.width = '27.5%'
+containerChart4.style.height = '100%'
 
-	const wAxisX = weightFEChart.getDefaultAxisX().setTitle("Weight (kg)").setTitleFont(new FontSettings({ size: 14 }))
-	const wAxisY = weightFEChart.getDefaultAxisY().setTitle("Fuel Efficiency (km/kWh)").setTitleFont(new FontSettings({ size: 14 }))
-	wAxisY.setTickStrategy(AxisTickStrategies.Numeric, ticks => ticks
-		.setMajorFormattingFunction((value) => `${value.toFixed(0)}`)
-	)
+const wAxisX = weightFEChart.getDefaultAxisX().setTitle("Weight (kg)").setTitleFont(new FontSettings({ size: 14 }))
+const wAxisY = weightFEChart.getDefaultAxisY().setTitle("Fuel Efficiency (km/kWh)").setTitleFont(new FontSettings({ size: 14 }))
+wAxisY.setTickStrategy(AxisTickStrategies.Numeric, ticks => ticks
+	.setMajorFormattingFunction((value) => `${value.toFixed(0)}`)
+)
     
-	// Get or create series per fuel type
-	const scatterByFuel = {}
+// Get or create series per fuel type
+const scatterByFuel = {}
 
-	const getScatterForFuel = (fuel) => {
-		if (scatterByFuel[fuel]) return scatterByFuel[fuel]
-		const series = weightFEChart.addPointSeries({ 
-			schema: {
-				x: { pattern: 'progressive' },
-				y: { pattern: null }
-     	},		
-			pointShape: "Circle" 
-		})
-		series
-			.setPointSize(8)
-			.setName(fuel)
-			.setPointFillStyle(new SolidFill({ color: fuelPalette[fuel] || fuelPalette.default }))
-		scatterByFuel[fuel] = series
-		return series
-	}
+const getScatterForFuel = (fuel) => {
+	if (scatterByFuel[fuel]) return scatterByFuel[fuel]
+	const series = weightFEChart.addPointSeries({ 
+		schema: {
+			x: { pattern: 'progressive' },
+			y: { pattern: null }
+		},		
+		pointShape: "Circle" 
+	})
+	series
+		.setPointSize(8)
+		.setName(fuel)
+		.setPointFillStyle(new SolidFill({ color: fuelPalette[fuel] || fuelPalette.default }))
+	scatterByFuel[fuel] = series
+	return series
+}
 
 // Box and whiskers Chart
 const containerChart5 = document.createElement('div')
@@ -196,64 +194,61 @@ const horsepowerChart = lc
 	})
 	.setTitle("Horsepower Distribution per Fuel Type")
 	.setTitleFont(new FontSettings({ size: 15 }))
-	// .setTitleMargin({ top: 0, bottom: 5 })
 	.setCursorMode(undefined)
 	.setPadding({ left: 10, right: 10, top: 5, bottom: 5 })
-	// .setTitleMargin({ bottom: 10 })
-	containerChart5.style.width = '27.5%'
-	containerChart5.style.height = '100%'
+containerChart5.style.width = '27.5%'
+containerChart5.style.height = '100%'
 
-	const hpAxisX = horsepowerChart
-		.getDefaultAxisX()
-		.setTickStrategy(AxisTickStrategies.Empty)
-		.setTitlePosition("center")
+const hpAxisX = horsepowerChart
+	.getDefaultAxisX()
+	.setTickStrategy(AxisTickStrategies.Empty)
+	.setTitlePosition("center")
 
-	const hpAxisY = horsepowerChart
-		.getDefaultAxisY()
-		.setTitle("Horsepower (hp)")
-		.setTitleFont(new FontSettings({ size: 15 }))
-		.setScrollStrategy(undefined)
-		.setInterval({ start: 100, end: 550, stopAxisAfter: false })
+const hpAxisY = horsepowerChart
+	.getDefaultAxisY()
+	.setTitle("Horsepower (hp)")
+	.setTitleFont(new FontSettings({ size: 15 }))
+	.setScrollStrategy(undefined)
+	.setInterval({ start: 100, end: 550, stopAxisAfter: false })
 
-	// Get or create box and point series per fuel type
-	const boxByFuel = {}
-	const pointsByFuel = {}
-	const hpTicksByFuel = {} 
-	const fuelsOrdered = ["Petrol", "Diesel", "Electric", "Hybrid"]
+// Get or create box and point series per fuel type
+const boxByFuel = {}
+const pointsByFuel = {}
+const hpTicksByFuel = {} 
+const fuelsOrdered = ["Petrol", "Diesel", "Electric", "Hybrid"]
 
-	fuelsOrdered.forEach((fuel, i) => {
-		const tick = hpAxisX.addCustomTick()  
-		tick.setValue(i + 0.5) 
-		tick.setTextFormatter(() => fuel)
-		tick.setGridStrokeLength(0)
-		hpTicksByFuel[fuel] = tick  
-	})
+fuelsOrdered.forEach((fuel, i) => {
+	const tick = hpAxisX.addCustomTick()  
+	tick.setValue(i + 0.5) 
+	tick.setTextFormatter(() => fuel)
+	tick.setGridStrokeLength(0)
+	hpTicksByFuel[fuel] = tick  
+})
 
-	function getBoxForFuel(fuel) {
-		if (boxByFuel[fuel]) return boxByFuel[fuel]
+function getBoxForFuel(fuel) {
+	if (boxByFuel[fuel]) return boxByFuel[fuel]
 
-		const boxSeries = horsepowerChart
-			.addBoxSeries()
-			.setDefaultStyle((figure) => figure
-				.setBodyWidth(0.8)
-				.setTailWidth(0.7)
-				.setBodyFillStyle(new SolidFill({ color: fuelPalette[fuel] || fuelPalette.default }))
-				// .setStrokeStyle(new SolidLine({ thickness: 1, fillStyle: new SolidFill({ color: fuelPalette.default }) }))
-			)
-		boxByFuel[fuel] = boxSeries
-		return boxSeries
-	}
+	const boxSeries = horsepowerChart
+		.addBoxSeries()
+		.setDefaultStyle((figure) => figure
+			.setBodyWidth(0.8)
+			.setTailWidth(0.7)
+			.setBodyFillStyle(new SolidFill({ color: fuelPalette[fuel] || fuelPalette.default }))
+		)
+	boxByFuel[fuel] = boxSeries
+	return boxSeries
+}
 
-	function getPointsForFuel(fuel) {
-		if (pointsByFuel[fuel]) return pointsByFuel[fuel]
-		const pointSeries = horsepowerChart
-			.addPointSeries({})
-			.setStrokeStyle(emptyLine)
-			.setPointSize(8)
-			.setPointFillStyle(new SolidFill({ color: fuelPalette[fuel] || fuelPalette.default }))
-		pointsByFuel[fuel] = pointSeries
-		return pointSeries
-	}
+function getPointsForFuel(fuel) {
+	if (pointsByFuel[fuel]) return pointsByFuel[fuel]
+	const pointSeries = horsepowerChart
+		.addPointSeries({})
+		.setStrokeStyle(emptyLine)
+		.setPointSize(8)
+		.setPointFillStyle(new SolidFill({ color: fuelPalette[fuel] || fuelPalette.default }))
+	pointsByFuel[fuel] = pointSeries
+	return pointSeries
+}
 
 fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 	.then((r) => r.json())
@@ -313,12 +308,12 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 			// Set data
 			fuelPriceChart.setDataGrouped(fuels, [{ subCategory: "Avg Price", values: averages }])
 
-          // Color each bar by fuel type
-          fuels.forEach((fuel) => {
-            const bar = fuelPriceChart.getBar(fuel, "Avg Price")
-            if (bar) bar.setFillStyle(new SolidFill({ color: fuelPalette[fuel] || fuelPalette.default }))
-          })
-        }
+			// Color each bar by fuel type
+			fuels.forEach((fuel) => {
+				const bar = fuelPriceChart.getBar(fuel, "Avg Price")
+				if (bar) bar.setFillStyle(new SolidFill({ color: fuelPalette[fuel] || fuelPalette.default }))
+			})
+		}
 
 		// Update scatter chart
 		function updateScatterChart(samples) {

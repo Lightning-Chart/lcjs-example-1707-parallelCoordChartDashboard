@@ -21,8 +21,7 @@ The demo can be used as an example or a seed project. Local execution requires t
 
 A Parallel Coordinate Chart dashboard displaying simulated car charasteristics data.
 
-The _Parallel Coordinate Chart_ has a built-in _Range Selector_ tool that allows users to define a value range `[start, end]` along 1 specific Axis, and highlights the series whose value is within that range.
-This example uses multiple Range selectors, created using `Axis.addRangeSelector` method. Only series that pass all the conditions are highlighted.
+The _Parallel Coordinate Chart_ has a built-in _Range Selector_ tool that allows users to define a value range `[start, end]` along 1 specific Axis, and highlights the series whose value is within that range. This example uses multiple Range selectors, created using `Axis.addRangeSelector` method. Only series that pass all the conditions are highlighted.
 
 Range selectors can be freely moved/resized by dragging on them, or deleted by double clicking on one.
 
