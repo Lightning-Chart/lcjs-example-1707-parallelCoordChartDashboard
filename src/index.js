@@ -1,3 +1,14 @@
+window.lcjsSmallView = window.devicePixelRatio >= 2
+if (!window.__lcjsDebugOverlay) {
+    window.__lcjsDebugOverlay = document.createElement('div')
+    window.__lcjsDebugOverlay.style.cssText = 'position:fixed;top:10px;left:10px;background:rgba(0,0,0,0.7);color:#fff;padding:4px 8px;z-index:99999;font:12px monospace;pointer-events:none'
+    const attach = () => { if (document.body && !window.__lcjsDebugOverlay.parentNode) document.body.appendChild(window.__lcjsDebugOverlay) }
+    attach()
+    setInterval(() => {
+        attach()
+        window.__lcjsDebugOverlay.textContent = window.innerWidth + 'x' + window.innerHeight + ' dpr=' + window.devicePixelRatio + ' small=' + window.lcjsSmallView
+    }, 500)
+}
 const lcjs = require('@lightningchart/lcjs')
 const {
 	lightningChart, 
@@ -65,19 +76,9 @@ const parallelChart = lc
 	},
     theme: (() => {
     const t = Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined
-    const smallView = window.devicePixelRatio >= 2
-    if (!window.__lcjsDebugOverlay) {
-        window.__lcjsDebugOverlay = document.createElement('div')
-        window.__lcjsDebugOverlay.style.cssText = 'position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);color:#fff;padding:4px 8px;z-index:99999;font:12px monospace;pointer-events:none'
-        if (document.body) document.body.appendChild(window.__lcjsDebugOverlay)
-        setInterval(() => {
-            if (!window.__lcjsDebugOverlay.parentNode && document.body) document.body.appendChild(window.__lcjsDebugOverlay)
-            window.__lcjsDebugOverlay.textContent = window.innerWidth + 'x' + window.innerHeight + ' dpr=' + window.devicePixelRatio + ' small=' + (window.devicePixelRatio >= 2)
-        }, 500)
-    }
-    return t && smallView ? lcjs.scaleTheme(t, 0.5) : t
+    return t && window.lcjsSmallView ? lcjs.scaleTheme(t, 0.5) : t
 })(),
-textRenderer: window.devicePixelRatio >= 2 ? lcjs.htmlTextRenderer : undefined,
+textRenderer: window.lcjsSmallView ? lcjs.htmlTextRenderer : undefined,
   })
   .setTitle("Car Characteristics - Double Click on Axis to Filter")
   .setPadding({ left: 10, right: 10, top: 0, bottom: 15 })
@@ -112,7 +113,11 @@ const modelsChart = lc
 		container: containerChart2,
 		legend: { addEntriesAutomatically: false },
 		type: BarChartTypes.Horizontal,
-		// theme: Themes.darkGold
+		theme: (() => {
+    const t = Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined
+    return t && window.lcjsSmallView ? lcjs.scaleTheme(t, 0.5) : t
+})(),
+textRenderer: window.lcjsSmallView ? lcjs.htmlTextRenderer : undefined,
 	})
 	.setTitle("Models by Manufacturer")
 	.setTitleFont(new FontSettings({ size: 15 }))
@@ -133,7 +138,11 @@ const fuelPriceChart = lc
 		container: containerChart3,
 		legend: { addEntriesAutomatically: false },
 		type: BarChartTypes.Vertical,
-		// theme: Themes.darkGold
+		theme: (() => {
+    const t = Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined
+    return t && window.lcjsSmallView ? lcjs.scaleTheme(t, 0.5) : t
+})(),
+textRenderer: window.lcjsSmallView ? lcjs.htmlTextRenderer : undefined,
 	})
 	.setTitle("Average Price per Fuel Type")
 	.setTitleFont(new FontSettings({ size: 15 }))
@@ -156,7 +165,11 @@ chartsLayout.append(containerChart4)
 const weightFEChart = lc
 	.ChartXY({ 
 		container: containerChart4, 
-		// theme: Themes.darkGold
+		theme: (() => {
+    const t = Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined
+    return t && window.lcjsSmallView ? lcjs.scaleTheme(t, 0.5) : t
+})(),
+textRenderer: window.lcjsSmallView ? lcjs.htmlTextRenderer : undefined,
 	})
 	.setTitle("Fuel Efficiency vs Weight")
 	.setTitleFont(new FontSettings({ size: 15 }))
@@ -198,7 +211,11 @@ const horsepowerChart = lc
 	.ChartXY({
 		container: containerChart5,
 		legend: { addEntriesAutomatically: false },
-		// theme: Themes.darkGold
+		theme: (() => {
+    const t = Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined
+    return t && window.lcjsSmallView ? lcjs.scaleTheme(t, 0.5) : t
+})(),
+textRenderer: window.lcjsSmallView ? lcjs.htmlTextRenderer : undefined,
 	})
 	.setTitle("Horsepower Distribution per Fuel Type")
 	.setTitleFont(new FontSettings({ size: 15 }))
