@@ -59,19 +59,19 @@ const lc = lightningChart({
 const containerChart1 = document.createElement('div')
 parallelLayout.append(containerChart1)
 const parallelChart = lc
-  .ParallelCoordinateChart({ 
-    container: containerChart1,
-	legend: {
-		position: LegendPosition.RightCenter
-	},
-    theme: (() => {
+    .ParallelCoordinateChart({ 
+        container: containerChart1,
+        legend: {
+            position: LegendPosition.RightCenter
+        },
+        theme: (() => {
     const t = Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined
     return t && window.lcjsSmallView ? lcjs.scaleTheme(t, 0.5) : t
 })(),
 textRenderer: window.lcjsSmallView ? lcjs.htmlTextRenderer : undefined,
-  })
-  .setTitle("Car Characteristics - Double Click on Axis to Filter")
-  .setPadding({ left: 10, right: 10, top: 0, bottom: 15 })
+    })
+    .setTitle("Car Characteristics - Double Click on Axis to Filter")
+    .setPadding({ left: 10, right: 10, top: 0, bottom: 15 })
 containerChart1.style.width = '100%'
 containerChart1.style.height = '100%'
 
@@ -139,6 +139,7 @@ textRenderer: window.lcjsSmallView ? lcjs.htmlTextRenderer : undefined,
 	.setTitleMargin({ top: 5, bottom: 20 })
 	.setValueLabels({
 		formatter: (info) => `$${(info.value).toFixed(0)}k`,
+        position: 'inside-bar',
 	})
 	.setCornerRadius(3) 
 	.setBarsMargin(0.15)
@@ -167,7 +168,6 @@ textRenderer: window.lcjsSmallView ? lcjs.htmlTextRenderer : undefined,
 	.setPadding({ left: 10, right: 10, top: 5, bottom: 5 })
 containerChart4.style.width = '27.5%'
 containerChart4.style.height = '100%'
-
 const wAxisX = weightFEChart.getDefaultAxisX().setTitle("Weight (kg)").setTitleFont(new FontSettings({ size: 14 }))
 const wAxisY = weightFEChart.getDefaultAxisY().setTitle("Fuel Efficiency (km/kWh)").setTitleFont(new FontSettings({ size: 14 }))
 wAxisY.setTickStrategy(AxisTickStrategies.Numeric, ticks => ticks
@@ -242,7 +242,6 @@ fuelsOrdered.forEach((fuel, i) => {
 
 function getBoxForFuel(fuel) {
 	if (boxByFuel[fuel]) return boxByFuel[fuel]
-
 	const boxSeries = horsepowerChart
 		.addBoxSeries()
 		.setDefaultStyle((figure) => figure
@@ -273,7 +272,6 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 			const series = parallelChart.addSeries()
 			series.setName(`${sample.Manufacturer} ${sample.Model} (${sample.Fuel})`).setData(sample)
 		})
-
 		// Update horizontal bar chart
 		function updateModelsChart(samples) {
 			if (!modelsChart || modelsChart.isDisposed()) return
@@ -281,21 +279,18 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 				modelsChart.setDataGrouped(["No selection"], [{ subCategory: "Count", values: [0] }])
 				return
 			}
-
 			// Compute counts per manufacturer and fuel
 			const manufacturers = [...new Set(samples.map((s) => s.Manufacturer))]
 			const fuels = [...new Set(samples.map((s) => s.Fuel))]
 			const valuesByFuel = fuels.map((fuel) =>
 				manufacturers.map((m) => samples.filter((s) => s.Manufacturer === m && s.Fuel === fuel).length)
 			)
-
 			// Set data
 			const stacked = fuels.map((fuel, i) => ({
 				subCategory: fuel,
 				values: valuesByFuel[i],
 			}))
 			modelsChart.setDataStacked(manufacturers, stacked)
-
 			// Apply colors to each fuel sub-bar
 			manufacturers.forEach((m) => {
 				fuels.forEach((fuel) => {
@@ -304,7 +299,6 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 				})
 			})
 		}
-
 		// Update vertical bar chart
 		function updateAvgPriceChart(samples) {
 			if (!fuelPriceChart || fuelPriceChart.isDisposed()) return
@@ -312,29 +306,24 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 				fuelPriceChart.setDataGrouped(["No selection"], [{ subCategory: "Average Price", values: [0] }])
 				return
 			}
-
 			// Compute average price per fuel
 			const fuels = [...new Set(samples.map((s) => s.Fuel))]
 			const averages = fuels.map((fuel) => {
 				const subset = samples.filter((s) => s.Fuel === fuel)
 				return subset.reduce((sum, s) => sum + Number(s.Price || 0), 0) / Math.max(1, subset.length)
 			})
-
 			// Set data
 			fuelPriceChart.setDataGrouped(fuels, [{ subCategory: "Avg Price", values: averages }])
-
 			// Color each bar by fuel type
 			fuels.forEach((fuel) => {
 				const bar = fuelPriceChart.getBar(fuel, "Avg Price")
 				if (bar) bar.setFillStyle(new SolidFill({ color: fuelPalette[fuel] || fuelPalette.default }))
 			})
 		}
-
 		// Update scatter chart
 		function updateScatterChart(samples) {
 			Object.values(scatterByFuel).forEach((s) => s.clear())
 			if (!samples?.length) return
-
 			// Group samples by fuel
 			const byFuel = samples.reduce((grouped, s) => {
 				const f = s.Fuel || "Unknown"
@@ -347,12 +336,10 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 				}
 				return grouped
 			}, {})
-
 			// Append samples per fuel
 			Object.entries(byFuel).forEach(([fuel, { x, y }]) => {
 				if (x.length) getScatterForFuel(fuel).appendSamples({ x: x, y: y })
 			})
-
 			// Adjust axes ranges dynamically
 			const allX = samples.map((s) => Number(s.Weight)).filter(Number.isFinite)
 			const allY = samples.map((s) => Number(s.FuelEfficiency)).filter(Number.isFinite)
@@ -361,7 +348,6 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 				wAxisY.setInterval({ start: Math.min(...allY), end: Math.max(...allY) })
 			}
 		}
-
 		// Update box and whiskers chart
 		function updateHorsepowerChart(samples) {
 			if (!horsepowerChart || horsepowerChart.isDisposed()) return
@@ -370,7 +356,6 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 				Object.values(pointsByFuel).forEach((s) => s.clear())
 				return
 			}
-
 			// Group horsepower per fuel
 			const byFuel = fuelsOrdered.reduce((grouped, fuel) => {
 				grouped[fuel] = samples
@@ -380,24 +365,20 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 					.sort((a, b) => a - b)
 				return grouped
 			}, {})
-
 			const allHP = samples.map((s) => Number(s.Horsepower)).filter(Number.isFinite)
 			if (!allHP.length) return
-
 			// Update series per fuel
 			fuelsOrdered.forEach((fuel, i) => {
 				const values = byFuel[fuel]
 				if (!values || values.length === 0) {
-						if (boxByFuel[fuel]) boxByFuel[fuel].clear()
-						if (pointsByFuel[fuel]) pointsByFuel[fuel].clear()
-						return
-					}
+                    if (boxByFuel[fuel]) boxByFuel[fuel].clear()
+                    if (pointsByFuel[fuel]) pointsByFuel[fuel].clear()
+                    return
+                }
 				const box = getBoxForFuel(fuel)
 				const points = getPointsForFuel(fuel)
-
 				box.clear()
 				points.clear()
-
 				// Compute quartiles and whiskers
 				const q1 = values[Math.floor(0.25 * (values.length - 1))]
 				const median = values[Math.floor(0.5 * (values.length - 1))]
@@ -406,12 +387,10 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 				const lowerExtreme = Math.max(Math.min(...values), q1 - 1.5 * iqr)
 				const upperExtreme = Math.min(Math.max(...values), q3 + 1.5 * iqr)
 				const outliers = values.filter((v) => v < lowerExtreme || v > upperExtreme)
-
 				// Add box and whiskers data
 				const start = i
 				const end = i + 1
 				const middle = (start + end) / 2
-
 				box.add({
 					start,
 					end,
@@ -421,10 +400,8 @@ fetch(document.head.baseURI + 'examples/assets/1707/cars.json')
 					upperQuartile: q3,
 					upperExtreme,
 				})
-
 				outliers.forEach((o) => points.appendSample({ x: middle, y: o }))
 			})
-
 			// Adjust Y range dynamically
 			hpAxisY.setInterval({ start: Math.min(...allHP) * 0.9, end: Math.max(...allHP) * 1.05, stopAxisAfter: false, })
 		}

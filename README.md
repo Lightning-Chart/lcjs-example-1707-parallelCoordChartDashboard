@@ -64,10 +64,10 @@ Direct developer email support can be purchased through a [Support Plan][4] or b
 © LightningChart Ltd 2009-2026. All rights reserved.
 
 
-[Parallel Coordinate Chart]: https://lightningchart.com/js-charts/api-documentation/v8.2.0/classes/ParallelCoordinateChart.html
-[XY Chart]: https://lightningchart.com/js-charts/api-documentation/v8.2.0/classes/ChartXY.html
-[LUT]: https://lightningchart.com/js-charts/api-documentation/v8.2.0/classes/LUT.html
-[Bar Chart Types]: https://lightningchart.com/js-charts/api-documentation/v8.2.0/variables/BarChartTypes.html
-[Point Series]: https://lightningchart.com/js-charts/api-documentation/v8.2.0/classes/PointLineAreaSeries.html
-[Box and Whiskers]: https://lightningchart.com/js-charts/api-documentation/v8.2.0/classes/BoxSeries.html
+[Parallel Coordinate Chart]: https://lightningchart.com/js-charts/api-documentation/v8.3.0/classes/ParallelCoordinateChart.html
+[XY Chart]: https://lightningchart.com/js-charts/api-documentation/v8.3.0/classes/ChartXY.html
+[LUT]: https://lightningchart.com/js-charts/api-documentation/v8.3.0/classes/LUT.html
+[Bar Chart Types]: https://lightningchart.com/js-charts/api-documentation/v8.3.0/variables/BarChartTypes.html
+[Point Series]: https://lightningchart.com/js-charts/api-documentation/v8.3.0/classes/PointLineAreaSeries.html
+[Box and Whiskers]: https://lightningchart.com/js-charts/api-documentation/v8.3.0/classes/BoxSeries.html
 
